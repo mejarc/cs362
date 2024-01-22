@@ -7,7 +7,7 @@ class TestCase(unittest.TestCase):
         """Verifies that credit card with no number returns False
         Picked using Error Guessing
         """
-        self.assertFalse(credit_card_validator(" "))
+        self.assertFalse(credit_card_validator("abcdeabcde"))
 
     def test2(self):
         """Verifies that credit card with less < 10 numbers returns False
@@ -104,13 +104,13 @@ class TestCase(unittest.TestCase):
     def test18(self):
         """Verifies that Visa starting with 4,
         length = 15, valid checksum returns False
-        Picked using Error Guessing"""
+        Picked using Boundary Value Analysis"""
         self.assertFalse(credit_card_validator("433333333333336"))
 
     def test19(self):
         """Verifies that Mastercard starting with 52,
         length = 15, valid checksum returns False
-        Picked using Category Partitioning"""
+        Picked using Boundary Value Analysis"""
         self.assertFalse(credit_card_validator("523333333333337"))
 
     def test20(self):
@@ -136,6 +136,36 @@ class TestCase(unittest.TestCase):
         length = 16, invalid checksum returns False
         Picked using Category Partitioning"""
         self.assertFalse(credit_card_validator("2333333333333336"))
+
+    def test24(self):
+        """Verifies that credit card with 15 nondigits returns False
+        Picked using Error Guessing
+        """
+        self.assertFalse(credit_card_validator("abcdeabcdeabcd6"))
+
+    def test25(self):
+        """Verifies that Mastercard starting with 2720,
+        length = 16, invalid checksum returns False
+        Picked using Category Partitioning"""
+        self.assertFalse(credit_card_validator("2720333333333339"))
+
+    def test26(self):
+        """Verifies that Mastercard starting with 2721,
+        length = 16, invalid checksum returns False
+        Picked using Boundary Value Analysis"""
+        self.assertFalse(credit_card_validator("2721333333333336"))
+
+    def test27(self):
+        """Verifies that Mastercard starting with 2720,
+        length = 15, invalid checksum returns False
+        Picked using Category Partitioning"""
+        self.assertFalse(credit_card_validator("272033333333339"))
+
+    def test28(self):
+        """Verifies that Mastercard starting with 2720,
+        length = 15, valid checksum returns True
+        Picked using Category Partitioning"""
+        self.assertTrue(credit_card_validator("272033333333334"))
 
 
 if __name__ == '__main__':
