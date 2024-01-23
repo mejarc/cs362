@@ -6,7 +6,9 @@ class TestCase(unittest.TestCase):
     """ Test numbers
     """
     valid_amex_34 = "343333333333335"
+    amex_34_bad_checksum = "343333333333330"
     valid_amex_37 = "373333333333338"
+    amex_37_bad_checksum = "373333333333333"
 
     valid_visa = "4333333333333339"
     short_valid_visa = "433333333333336"
@@ -22,6 +24,7 @@ class TestCase(unittest.TestCase):
     mc_2333_bad_checksum = "2333333333333336"
     long_mc_2333 = "23333333333333339"
     valid_mc_2500 = "2500333333333330"
+    mc_2500_bad_checksum = "2500333333333335"
     valid_mc_2720 = "2720333333333334"
     mc_2720_bad_checksum = "2720333333333339"
     short_invalid_mc_2720 = "272033333333339"
@@ -174,10 +177,11 @@ class TestCase(unittest.TestCase):
         self.assertFalse(credit_card_validator(TestCase.mc_2333_bad_checksum))
 
     def test24(self):
-        """Verifies that credit card with 15 nondigits returns False
-        Picked using Error Guessing
+        """Verifies that Mastercard starting with 2500,
+        length = 16, invalid checksum returns False
+        Picked using Category Partitioning
         """
-        self.assertFalse(credit_card_validator("abcdeabcdeabcd6"))
+        self.assertFalse(credit_card_validator(TestCase.mc_2500_bad_checksum))
 
     def test25(self):
         """Verifies that Mastercard starting with 2720,
@@ -220,6 +224,18 @@ class TestCase(unittest.TestCase):
         length = 15, invalid checksum returns False
         Picked using Boundary Value Analysis"""
         self.assertFalse(credit_card_validator(TestCase.amex_35_bad_checksum))
+
+    def test32(self):
+        """Verifies that Amex starting with 34,
+        length = 15, invalid checksum returns False
+        Picked using Error Guessing"""
+        self.assertFalse(credit_card_validator(TestCase.amex_34_bad_checksum))
+
+    def test33(self):
+        """Verifies that Amex starting with 37,
+        length = 15, invalid checksum returns False
+        Picked using Error Guessing"""
+        self.assertFalse(credit_card_validator(TestCase.amex_37_bad_checksum))
 
 
 if __name__ == '__main__':
