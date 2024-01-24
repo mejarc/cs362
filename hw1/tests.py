@@ -15,9 +15,11 @@ class TestCase(unittest.TestCase):
 
     # Amex
     valid_amex_34 = "343333333333335"
-    amex_34_bad_checksum = "343333333333330"
+    amex_34_bad_checksum = "343333333333337"
+    short_amex_34_valid_checksum = "3433333333334"
     valid_amex_37 = "373333333333338"
-    amex_37_bad_checksum = "373333333333333"
+    amex_37_bad_checksum = "373333333333332"
+
     boundary_amex_33 = "333333333333337"
     amex_33_bad_checksum = "333333333333332"
     boundary_amex_35 = "353333333333331"
@@ -31,21 +33,26 @@ class TestCase(unittest.TestCase):
     # Mastercard
     valid_mc_51 = "5133333333333338"
     short_valid_mc_51 = "513333333333339"
-
     valid_mc_52 = "5233333333333337"
     short_valid_mc_52 = "523333333333337"
+    valid_mc_53 = "5333333333333336"
+    valid_mc_54 = "5433333333333335"
     valid_mc_55 = "5533333333333334"
+    valid_mc_56 = "5633333333333333"
     valid_mc_2221 = "2221333333333338"
+    valid_mc_2222 = "2222333333333337"
     valid_mc_2333 = "2333333333333333"
     mc_2333_bad_checksum = "2333333333333336"
     long_mc_2333 = "23333333333333339"
     valid_mc_2500 = "2500333333333330"
     mc_2500_bad_checksum = "2500333333333335"
+    valid_mc_2719 = "2719333333333337"
     valid_mc_2720 = "2720333333333334"
     mc_2720_bad_checksum = "2720333333333339"
     short_invalid_mc_2720 = "272033333333339"
     short_valid_mc_2720 = "272033333333336"
     boundary_mc_50 = "5033333333333339"
+    mc_50_bad_checksum = "5033333333333331"
     boundary_mc_56 = "5633333333333333"
     boundary_mc_2220 = "2220333333333339"
     boundary_mc_2721 = "2721333333333333"
@@ -61,7 +68,7 @@ class TestCase(unittest.TestCase):
     def test2(self):
         """Verifies that credit card with less < 10 numbers returns False
         Picked using Boundary Value Analysis"""
-        self.assertFalse(credit_card_validator("333333333"))
+        self.assertFalse(credit_card_validator("4"))
 
     def test3(self):
         """Verifies that credit card with > 19 numbers returns False
@@ -288,6 +295,67 @@ class TestCase(unittest.TestCase):
         length = 15, valid checksum returns False
         Picked using Category Partitioning"""
         self.assertFalse(credit_card_validator(TestCase.short_valid_mc_51))
+
+    def test41(self):
+        """Verifies that Amex starting with 34,
+        length = 14, valid checksum returns False
+        Picked using Error Guessing"""
+        self.assertFalse(credit_card_validator(
+            TestCase.short_amex_34_valid_checksum))
+
+    def test42(self):
+        """Verifies that Mastercard starting with 50,
+        length = 16, invalid checksum returns False
+        Picked using Boundary Value Analysis"""
+        self.assertFalse(credit_card_validator(TestCase.mc_50_bad_checksum))
+
+    def test43(self):
+        """Verifies that Mastercard starting with 54,
+        length = 16, valid checksum returns True
+        Picked using Boundary Value Analysis"""
+        self.assertTrue(credit_card_validator(TestCase.valid_mc_54))
+
+    def test44(self):
+        """Verifies that Mastercard starting with 2221,
+        length = 16, valid checksum returns True
+        Picked using Boundary Value Analysis"""
+        self.assertTrue(credit_card_validator(TestCase.valid_mc_2221))
+
+    def test45(self):
+        """Verifies that Mastercard starting with 2222,
+        length = 16, valid checksum returns True
+        Picked using Boundary Value Analysis"""
+        self.assertTrue(credit_card_validator(TestCase.valid_mc_2222))
+
+    def test46(self):
+        """Verifies that Mastercard starting with 2719,
+        length = 16, valid checksum returns True
+        Picked using Boundary Value Analysis"""
+        self.assertTrue(credit_card_validator(TestCase.valid_mc_2719))
+
+    def test47(self):
+        """Verifies that Mastercard starting with 55,
+        length = 16, valid checksum returns True
+        Picked using Boundary Value Analysis"""
+        self.assertTrue(credit_card_validator(TestCase.valid_mc_55))
+
+    def test48(self):
+        """Verifies that Mastercard starting with 56,
+        length = 16, valid checksum returns False
+        Picked using Boundary Value Analysis"""
+        self.assertFalse(credit_card_validator(TestCase.valid_mc_56))
+
+    def test49(self):
+        """Verifies that Mastercard starting with 53,
+        length = 16, valid checksum returns True
+        Picked using Category Partitioning"""
+        self.assertTrue(credit_card_validator(TestCase.valid_mc_53))
+
+    def test50(self):
+        """Verifies that Mastercard starting with 51,
+        length = 16, valid checksum returns True
+        Picked using Category Partitioning"""
+        self.assertTrue(credit_card_validator(TestCase.valid_mc_51))
 
 
 if __name__ == '__main__':
