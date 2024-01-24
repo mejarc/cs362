@@ -9,7 +9,14 @@ class TestCase(unittest.TestCase):
     # Visa
     valid_visa = "4333333333333339"
     short_valid_visa = "433333333333336"
-    long_valid_visa = "43333333333333337"
+    valid_visa_9 = "433333333"
+    valid_visa_10 = "4333333336"
+    valid_visa_17 = "43333333333333337"
+    invalid_visa_17 = "43333333333333331"
+    valid_visa_19 = "4333333333333333338"
+    invalid_visa_19 = "4333333333333333331"
+    valid_visa_20 = "43333333333333333331"
+    invalid_visa_20 = "43333333333333333336"
     visa_bad_checksum = "4333333333333338"
     visa_all_bad = "433333333333337"
 
@@ -68,12 +75,12 @@ class TestCase(unittest.TestCase):
     def test2(self):
         """Verifies that credit card with less < 10 numbers returns False
         Picked using Boundary Value Analysis"""
-        self.assertFalse(credit_card_validator("4"))
+        self.assertFalse(credit_card_validator(TestCase.valid_visa_9))
 
     def test3(self):
         """Verifies that credit card with > 19 numbers returns False
         Picked using Boundary Value Analysis"""
-        self.assertFalse(credit_card_validator("33333333333333333333"))
+        self.assertFalse(credit_card_validator(TestCase.valid_visa_20))
 
     def test4(self):
         """Verifies that credit card with first digit 6 returns False
@@ -232,9 +239,9 @@ class TestCase(unittest.TestCase):
 
     def test30(self):
         """Verifies that Visa starting with 4,
-        length = 17, valid checksum returns False
+        length = 19, valid checksum returns False
         Picked using Error Guessing"""
-        self.assertFalse(credit_card_validator(TestCase.long_valid_visa))
+        self.assertFalse(credit_card_validator(TestCase.valid_visa_19))
 
     def test31(self):
         """Verifies that Amex starting with 35,
@@ -356,6 +363,42 @@ class TestCase(unittest.TestCase):
         length = 16, valid checksum returns True
         Picked using Category Partitioning"""
         self.assertTrue(credit_card_validator(TestCase.valid_mc_51))
+
+    def test51(self):
+        """Verifies that Visa starting with 4,
+        length = 19, valid checksum returns False
+        Picked using Boundary Value Analysis"""
+        self.assertFalse(credit_card_validator(TestCase.valid_visa_19))
+
+    def test52(self):
+        """Verifies that Visa starting with 4,
+        length = 19, invalid checksum returns False
+        Picked using Boundary Value Analysis"""
+        self.assertFalse(credit_card_validator(TestCase.invalid_visa_19))
+
+    def test53(self):
+        """Verifies that Visa starting with 4,
+        length = 20, valid checksum returns False
+        Picked using Boundary Value Analysis"""
+        self.assertFalse(credit_card_validator(TestCase.valid_visa_20))
+
+    def test54(self):
+        """Verifies that Visa starting with 4,
+        length = 20, invalid checksum returns False
+        Picked using Boundary Value Analysis"""
+        self.assertFalse(credit_card_validator(TestCase.invalid_visa_20))
+
+    def test55(self):
+        """Verifies that Visa starting with 4,
+        length = 17, valid checksum returns False
+        Picked using Boundary Value Analysis"""
+        self.assertFalse(credit_card_validator(TestCase.valid_visa_17))
+
+    def test56(self):
+        """Verifies that Visa starting with 4,
+        length = 17, invalid checksum returns False
+        Picked using Boundary Value Analysis"""
+        self.assertFalse(credit_card_validator(TestCase.invalid_visa_17))
 
 
 if __name__ == '__main__':
