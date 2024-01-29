@@ -22,7 +22,7 @@ class TestContrivedFunc(unittest.TestCase):
         contrived_func(26)
 
     def test7(self):
-        contrived_func(30)
+        contrived_func(3)
 
     def test8(self):
         contrived_func(35)
