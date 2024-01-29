@@ -7,7 +7,7 @@ class TestContrivedFunc(unittest.TestCase):
         contrived_func(2)
 
     def test2(self):
-        contrived_func(5)
+        contrived_func(-1)
 
     def test3(self):
         contrived_func(10)
