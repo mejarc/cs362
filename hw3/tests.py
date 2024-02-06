@@ -13,7 +13,7 @@ def generate_credit_card_number(length):
 
 class TestCreditCardValidator(unittest.TestCase):
     def test1(self):
-        tests_to_generate = 130000
+        tests_to_generate = 900000
         for _ in range(tests_to_generate):
             length = random.randint(14, 17)
             credit_card_number = generate_credit_card_number(length)
